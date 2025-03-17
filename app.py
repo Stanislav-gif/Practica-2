@@ -83,7 +83,6 @@ def update_car(car_id: int, car: CarUpdate, db: Session = Depends(get_db)):
     
     for key, value in car.dict(exclude_unset=True).items():
         setattr(db_car, key, value)
-    
     db.commit()
     db.refresh(db_car)
     return db_car
@@ -93,7 +92,6 @@ def delete_car(car_id: int, db: Session = Depends(get_db)):
     db_car = db.query(Car).filter(Car.id == car_id).first()
     if db_car is None:
         raise HTTPException(status_code=404, detail="Car not found")
-    
     db.delete(db_car)
     db.commit()
     return None
